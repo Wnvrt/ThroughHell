@@ -7,8 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
     private Rigidbody2D rb;
     public LayerMask groundMask;
+    public PhysicsMaterial2D playerDefault, playerGround;
 
-    public bool canJump = true;
     public float jumpValue = 0.0f;
 
     void Start()
@@ -24,14 +24,23 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(moveInput * walkSpeed, rb.linearVelocity.y);
         }
 
-        isGrounded = Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.4f), new Vector2(0.6f, 0.4f), 0f, groundMask);
+        isGrounded = Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.4f), new Vector2(0.45f, 0.4f), 0f, groundMask);
 
-        if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded && canJump)
+        if (isGrounded)
+        {
+            rb.sharedMaterial = playerGround;
+        }
+        else
+        {
+            rb.sharedMaterial = playerDefault;
+        }
+
+        if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded)
         {
             jumpValue += 0.1f;
         }
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded && canJump)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
         {
             rb.linearVelocity = new Vector2(0.0f, rb.linearVelocity.y);
         }
@@ -44,26 +53,21 @@ public class PlayerMovement : MonoBehaviour
             Invoke("ResetJump",0.2f);
         }
 
-        if (Input.GetKeyUp(KeyCode.W)|| Input.GetKeyUp(KeyCode.UpArrow))
+        if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && isGrounded)
         {
-            if (isGrounded)
-            {
-                rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpValue);
-                jumpValue = 0;
-            }
-            canJump = true;
+            rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpValue);
+            jumpValue = 0;
         }
     }
 
     private void ResetJump()
     {
-        canJump = false;
         jumpValue = 0;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawCube(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.4f), new Vector2(0.6f, 0.2f));
+        Gizmos.DrawCube(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.4f), new Vector2(0.45f, 0.2f));
     }
 }

@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask, iceMask;
     public PhysicsMaterial2D playerDefault, playerGround, playerIce;
 
-    public float jumpValue = 0.0f;
+    public float jumpValue = 5f;
 
     void Start()
     {
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Responsive air control
             float targetSpeed = moveInput * walkSpeed;
-            float acceleration = 50f; // Higher = more responsive
+            float acceleration = 30f; // Higher = more responsive
             float smoothedX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, acceleration * Time.deltaTime);
             rb.linearVelocity = new Vector2(smoothedX, rb.linearVelocity.y);
         }
@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         // Jump charging
         if (isJumpHeld && isGrounded)
         {
-            jumpValue += 0.1f;
+            jumpValue += 0.05f;
         }
 
         // Cancel vertical velocity at jump start
@@ -119,13 +119,13 @@ public class PlayerMovement : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && isGrounded)
         {
             rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpValue);
-            jumpValue = 0;
+            jumpValue = 5f;
         }
     }
 
     private void ResetJump()
     {
-        jumpValue = 0;
+        jumpValue = 5f;
     }
 
     private void OnDrawGizmosSelected()

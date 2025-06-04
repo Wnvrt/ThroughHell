@@ -4,9 +4,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public float walkSpeed;
     private float moveInput;
-    public bool isGrounded, isOnIce, isOnGround;
+    public bool isGrounded, isOnIce, isOnGround, isOnBounce;
     private Rigidbody2D rb;
-    public LayerMask groundMask, iceMask;
+    public LayerMask groundMask, iceMask, bounceMask;
     public PhysicsMaterial2D playerDefault, playerGround, playerIce;
 
     public float jumpValue = 5f;
@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        jumpValue = 5f;
     }
 
     void Update()
@@ -23,16 +24,23 @@ public class PlayerMovement : MonoBehaviour
         // Check grounded state
         isOnGround = Physics2D.OverlapBox(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.4f),
+            new Vector2(0.4f, 0.4f),
             0f,
             groundMask
         );
         isOnIce = Physics2D.OverlapBox(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.4f),
+            new Vector2(0.4f, 0.4f),
             0f,
             iceMask
         );
+        isOnBounce = Physics2D.OverlapBox(
+            new Vector2(transform.position.x, transform.position.y - 0.4f),
+            new Vector2(0.4f, 0.4f),
+            0f,
+            bounceMask
+        );
+
         isGrounded = isOnGround || isOnIce;
 
         // Apply physics material
@@ -40,13 +48,18 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.sharedMaterial = playerIce;
         }
-        else if (isOnGround)
+        else if (isOnGround || isOnBounce)
         {
             rb.sharedMaterial = playerGround;
         }
         else
         {
             rb.sharedMaterial = playerDefault;
+        }
+
+        if (isOnBounce && rb.linearVelocity.y==0)
+        {
+            isGrounded = true;
         }
 
         // Jump key state
@@ -133,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawCube(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.2f)
+            new Vector2(0.4f, 0.2f)
         );
     }
 }

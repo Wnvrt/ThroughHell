@@ -24,19 +24,19 @@ public class PlayerMovement : MonoBehaviour
         // Check grounded state
         isOnGround = Physics2D.OverlapBox(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.4f, 0.4f),
+            new Vector2(0.45f, 0.4f),
             0f,
             groundMask
         );
         isOnIce = Physics2D.OverlapBox(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.4f, 0.4f),
+            new Vector2(0.45f, 0.4f),
             0f,
             iceMask
         );
         isOnBounce = Physics2D.OverlapBox(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.4f, 0.4f),
+            new Vector2(0.45f, 0.4f),
             0f,
             bounceMask
         );
@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawCube(
             new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.4f, 0.2f)
+            new Vector2(0.45f, 0.2f)
         );
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     public static bool isPaused;
-    public GameObject pauseMenu;
+    public GameObject pauseMenu, optionsMenu;
 
     void Start()
     {
@@ -12,7 +12,7 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!optionsMenu.activeInHierarchy && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {
@@ -22,6 +22,12 @@ public class PauseManager : MonoBehaviour
             {
                 PauseGame();
             }
+        }
+
+        if (optionsMenu.activeInHierarchy && Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenu.SetActive(true);
+            optionsMenu.SetActive(false);
         }
     }
 

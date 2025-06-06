@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public PhysicsMaterial2D playerDefault, playerGround, playerIce;
 
     public float jumpValue = 5f;
+    bool isJumpHeld;
 
     void Start()
     {
@@ -71,8 +72,12 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
         }
 
+        
         // Jump key state
-        bool isJumpHeld = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        if (!PauseManager.isPaused)
+        {
+            isJumpHeld = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        }
 
         // Movement logic
         if (isGrounded && !isOnIce && isJumpHeld)
@@ -121,11 +126,11 @@ public class PlayerMovement : MonoBehaviour
         // Jump charging
         if (isJumpHeld && isGrounded)
         {
-            jumpValue += 0.05f;
+            jumpValue += 0.4f;
         }
 
         // Cancel vertical velocity at jump start
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded && !PauseManager.isPaused)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         }
@@ -138,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // On jump release
-        if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && isGrounded)
+        if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && isGrounded && !PauseManager.isPaused)
         {
             rb.linearVelocity = new Vector2(moveInput * walkSpeed, jumpValue);
             jumpValue = 5f;

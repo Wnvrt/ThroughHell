@@ -15,6 +15,15 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         jumpValue = 5f;
+
+        if (MainMenuManager.isContinue)
+        {
+            PlayerData data = SaveSystem.LoadPlayer();
+
+            gameObject.transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        }
+
+        InvokeRepeating("SaveGame", 0f, 0.2f);
     }
 
     void Update()
@@ -139,6 +148,11 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         jumpValue = 5f;
+    }
+
+    void SaveGame()
+    {
+        SaveSystem.SavePlayer(this);
     }
 
     private void OnDrawGizmosSelected()

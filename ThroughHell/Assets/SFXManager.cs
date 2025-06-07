@@ -7,6 +7,8 @@ public class SFXManager : MonoBehaviour
     public AudioSource sfxObject;
     public AudioSource sfxLoop;
 
+    private AudioSource currentLoop; // <-- Add this
+
     private void Awake()
     {
         if (instance == null)
@@ -18,27 +20,32 @@ public class SFXManager : MonoBehaviour
     public void PlaySFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
         AudioSource audioSource = Instantiate(sfxObject, spawnTransform.position, Quaternion.identity);
-
         audioSource.clip = audioClip;
         audioSource.volume = volume;
         audioSource.Play();
-
-        float clipLength = audioSource.clip.length;
-
-        Destroy(audioSource.gameObject, clipLength);
+        Destroy(audioSource.gameObject, audioClip.length);
     }
-
 
     public void LoopSFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
-        AudioSource audioSource = Instantiate(sfxLoop, spawnTransform.position, Quaternion.identity);
+        // Only start loop if nothing is currently playing
+        if (currentLoop == null)
+        {
+            currentLoop = Instantiate(sfxLoop, spawnTransform.position, Quaternion.identity);
+            currentLoop.clip = audioClip;
+            currentLoop.volume = volume;
+            currentLoop.loop = true;
+            currentLoop.Play();
+        }
+    }
 
-        audioSource.clip = audioClip;
-        audioSource.volume = volume;
-        audioSource.Play();
-
-        float clipLength = audioSource.clip.length;
-
-        Destroy(audioSource.gameObject, clipLength);
+    public void StopLoop()
+    {
+        if (currentLoop != null)
+        {
+            currentLoop.Stop();
+            Destroy(currentLoop.gameObject);
+            currentLoop = null;
+        }
     }
 }

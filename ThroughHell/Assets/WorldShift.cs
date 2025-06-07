@@ -11,16 +11,16 @@ public class WorldShift : MonoBehaviour
 
     void Update()
     {
-        if (!PauseManager.isPaused) {
+        if (!PauseManager.isPaused)
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SFXManager.instance.PlaySFXClip(hellStart, transform, 1f);
+                SFXManager.instance.LoopSFXClip(hellHold, transform, 0.5f); // Start loop
             }
 
             if (Input.GetKey(KeyCode.Space))
             {
-                /*SFXManager.instance.LoopSFXClip(hellHold, transform, 1f);*/
-
                 world.SetActive(false);
                 hell.SetActive(true);
             }
@@ -32,6 +32,7 @@ public class WorldShift : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.Space))
             {
+                SFXManager.instance.StopLoop(); // Stop loop
                 SFXManager.instance.PlaySFXClip(hellEnd, transform, 1f);
             }
         }

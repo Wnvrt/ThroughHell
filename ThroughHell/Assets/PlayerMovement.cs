@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpValue = 5f;
     bool isJumpHeld;
 
+    public Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -70,6 +72,17 @@ public class PlayerMovement : MonoBehaviour
         if (isOnBounce && rb.linearVelocity.y==0)
         {
             isGrounded = true;
+        }
+
+
+        //WalkAnimation
+        if(isGrounded && moveInput != 0)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
         }
 
         //Flip Character
@@ -135,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         // Jump charging
         if (isJumpHeld && isGrounded)
         {
-            jumpValue += 0.3f;
+            jumpValue += 0.4f;
         }
 
         // Cancel vertical velocity at jump start

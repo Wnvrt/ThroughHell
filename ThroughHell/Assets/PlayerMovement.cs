@@ -33,20 +33,20 @@ public class PlayerMovement : MonoBehaviour
 
         // Check grounded state
         isOnGround = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.4f),
+            new Vector2(transform.position.x, transform.position.y - 0.5f),
+            new Vector2(0.6f, 0.4f),
             0f,
             groundMask
         );
         isOnIce = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.4f),
+            new Vector2(transform.position.x, transform.position.y - 0.5f),
+            new Vector2(0.6f, 0.4f),
             0f,
             iceMask
         );
         isOnBounce = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.4f),
+            new Vector2(transform.position.x, transform.position.y - 0.5f),
+            new Vector2(0.6f, 0.4f),
             0f,
             bounceMask
         );
@@ -72,6 +72,15 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
         }
 
+        //Flip Character
+        if (moveInput > 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if(moveInput < 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
         
         // Jump key state
         if (!PauseManager.isPaused)
@@ -126,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
         // Jump charging
         if (isJumpHeld && isGrounded)
         {
-            jumpValue += 0.4f;
+            jumpValue += 0.3f;
         }
 
         // Cancel vertical velocity at jump start
@@ -164,8 +173,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawCube(
-            new Vector2(transform.position.x, transform.position.y - 0.4f),
-            new Vector2(0.45f, 0.2f)
+            new Vector2(transform.position.x, transform.position.y - 0.5f),
+            new Vector2(0.6f, 0.2f)
         );
     }
 }

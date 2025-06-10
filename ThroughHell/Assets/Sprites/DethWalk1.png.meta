@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 53fedf9282b0aaf44a787a97a3bb62ae
+guid: bf73c9adb41e40f4194b2ec1bde5f957
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 564219359784579134
-    second: DethWalk1_0
+      213: -2737780611220774956
+    second: DethWalk1 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DethWalk1_0
+      name: DethWalk1 1_0
       rect:
         serializedVersion: 2
         x: 2
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e30bb53b48284d700800000000000000
-      internalID: 564219359784579134
+      spriteID: 4dfdb3b1a03710ad0800000000000000
+      internalID: -2737780611220774956
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DethWalk1_0: 564219359784579134
+      DethWalk1 1_0: -2737780611220774956
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

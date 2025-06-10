@@ -35,20 +35,20 @@ public class PlayerMovement : MonoBehaviour
 
         // Check grounded state
         isOnGround = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - 0.5f),
-            new Vector2(0.6f, 0.4f),
+            new Vector2(transform.position.x + 0.03f * transform.localScale.x, transform.position.y - 0.5f),
+            new Vector2(0.4f, 0.4f),
             0f,
             groundMask
         );
         isOnIce = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - 0.5f),
-            new Vector2(0.6f, 0.4f),
+            new Vector2(transform.position.x + 0.03f * transform.localScale.x, transform.position.y - 0.5f),
+            new Vector2(0.4f, 0.4f),
             0f,
             iceMask
         );
         isOnBounce = Physics2D.OverlapBox(
-            new Vector2(transform.position.x, transform.position.y - 0.5f),
-            new Vector2(0.6f, 0.4f),
+            new Vector2(transform.position.x + 0.03f * transform.localScale.x, transform.position.y - 0.5f),
+            new Vector2(0.4f, 0.4f),
             0f,
             bounceMask
         );
@@ -74,6 +74,15 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
         }
 
+        //HoldJumpAnimation
+        if (isJumpHeld && isGrounded)
+        {
+            animator.SetBool("isHolding", true);
+        }
+        else
+        {
+            animator.SetBool("isHolding", false);
+        }
 
         //WalkAnimation
         if(isGrounded && moveInput != 0)
@@ -88,11 +97,11 @@ public class PlayerMovement : MonoBehaviour
         //Flip Character
         if (moveInput > 0)
         {
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            gameObject.transform.localScale = new Vector3(1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         }
         else if(moveInput < 0)
         {
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         }
         
         // Jump key state
@@ -186,8 +195,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawCube(
-            new Vector2(transform.position.x, transform.position.y - 0.5f),
-            new Vector2(0.6f, 0.2f)
+            new Vector2(transform.position.x + 0.03f * transform.localScale.x, transform.position.y - 0.5f),
+            new Vector2(0.4f, 0.2f)
         );
     }
 }

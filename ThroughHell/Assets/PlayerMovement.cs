@@ -74,6 +74,24 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
         }
 
+        //JumpAnimation
+        if (!isGrounded)
+        {
+            if (rb.linearVelocity.y > 0)
+            {
+                animator.SetBool("isUp", true);
+            }
+            else if(rb.linearVelocity.y < 0)
+            {
+                animator.SetBool("isUp", false);
+            }
+            animator.SetBool("isOnAir", true);
+        }
+        else
+        {
+            animator.SetBool("isOnAir", false);
+        }
+
         //HoldJumpAnimation
         if (isJumpHeld && isGrounded)
         {
